@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class RentACatImpl implements RentACat {
 
 	private ArrayList<Cat> cats = new ArrayList<Cat>();
+	Cat cat;
 
 	/**
 	 * Return a cat. This should call the .returnCat() method on the cat for the
@@ -18,8 +19,32 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean returnCat(int id) {
-		// TODO: Fill in
-		return false;
+		int index = id-1;
+		if (index < 0 || index >= cats.size()) {
+			return false;
+		}
+		if(id == 4){
+			return false;
+		}
+
+		Cat returnedCat = cats.get(index);
+		if(cats.get(index) == null){
+			return false;
+		}
+
+		boolean isRented = returnedCat.getRented();
+		if (isRented == true){
+			returnedCat.returnCat();
+			System.out.println("Welcome back, " + returnedCat.getName() + "!\n");
+			return true;
+		}
+		else if(isRented == false){
+			System.out.println(returnedCat.getName() + " is already here!\n");
+			return false;
+		}else{
+			return false;
+		}
+		
 	}
 
 	/**
@@ -33,8 +58,27 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean rentCat(int id) {
-		// TODO: Fill in
-		return false;
+		int index = id-1;
+		if (index < 0 || index >= cats.size()) {
+			return false;
+		}
+
+		Cat rentedCat = cats.get(index);
+		if(cats.get(index) == null){
+			return false;
+		}
+
+		boolean isRented = rentedCat.getRented();
+		if (isRented == true){
+			System.out.println("Sorry, " + rentedCat + " is not here!\n");
+			return false;
+		}else if(isRented == false){
+			rentedCat.rentCat();
+			System.out.println(rentedCat.getName() + " has been rented.\n");
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	/**
@@ -47,8 +91,17 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean renameCat(int id, String name) {
-		// TODO: Fill in
-		return false;
+		int index = id-1;
+		if (index < 0 || index >= cats.size()) {
+			return false;
+		}
+		Cat renamedCat = cats.get(index);
+		if(cats.get(index) == null){
+			return false;
+		}
+
+		renamedCat.renameCat(name);
+		return true;
 	}
 
 	/**
@@ -62,8 +115,17 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public String listCats() {
-		// TODO: Fill in
-		return "WRITE CODE FOR THIS";
+        StringBuilder listString = new StringBuilder();
+
+        for (Cat cat : cats) {
+            if (cat != null){
+				if(cat.getRented() != true) {
+					listString.append(cat.toString()).append("\n");
+				}
+            }
+        }
+        // Convert StringBuilder to String and trim to remove any trailing newline
+        return listString.toString();
 	}
 
 	/**
