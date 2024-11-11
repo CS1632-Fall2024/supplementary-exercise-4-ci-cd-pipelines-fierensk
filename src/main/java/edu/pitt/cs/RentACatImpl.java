@@ -6,7 +6,6 @@ import java.util.Scanner;
 public class RentACatImpl implements RentACat {
 
 	private ArrayList<Cat> cats = new ArrayList<Cat>();
-	Cat cat;
 
 	/**
 	 * Return a cat. This should call the .returnCat() method on the cat for the
@@ -44,7 +43,6 @@ public class RentACatImpl implements RentACat {
 		}else{
 			return false;
 		}
-		
 	}
 
 	/**
