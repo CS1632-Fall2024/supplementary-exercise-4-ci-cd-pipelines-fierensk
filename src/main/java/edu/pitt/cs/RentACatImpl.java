@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class RentACatImpl implements RentACat {
 
 	private ArrayList<Cat> cats = new ArrayList<Cat>();
+	Cat cat;
 
 	/**
 	 * Return a cat. This should call the .returnCat() method on the cat for the
@@ -18,29 +19,19 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean returnCat(int id) {
-		int index = id-1;
-		if (index < 0 || index >= cats.size()) {
-			return false;
-		}
-		if(id == 4){
-			return false;
-		}
-
-		Cat returnedCat = cats.get(index);
-		if(cats.get(index) == null){
+		Cat returnedCat = getCat(id);
+		if (returnedCat == null) {
+			System.out.println("Invalid cat ID.");
 			return false;
 		}
 
 		boolean isRented = returnedCat.getRented();
-		if (isRented == true){
+		if (isRented == true) {
 			returnedCat.returnCat();
-			System.out.println("Welcome back, " + returnedCat.getName() + "!\n");
+			System.out.println("Welcome back, " + returnedCat.getName() + "!");
 			return true;
-		}
-		else if(isRented == false){
-			System.out.println(returnedCat.getName() + " is already here!\n");
-			return false;
-		}else{
+		} else {
+			System.out.println(returnedCat.getName() + " is already here!");
 			return false;
 		}
 	}
@@ -56,25 +47,22 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean rentCat(int id) {
-		int index = id-1;
-		if (index < 0 || index >= cats.size()) {
-			return false;
-		}
-
-		Cat rentedCat = cats.get(index);
-		if(cats.get(index) == null){
+		Cat rentedCat = getCat(id);
+		if (rentedCat == null) {
+			System.out.println("Invalid cat ID.");
 			return false;
 		}
 
 		boolean isRented = rentedCat.getRented();
-		if (isRented == true){
-			System.out.println("Sorry, " + rentedCat + " is not here!\n");
+		if (isRented == true) {
+			System.out.println("Sorry, " + rentedCat.getName() + " is not here!");
 			return false;
-		}else if(isRented == false){
+		} else if (isRented == false) {
 			rentedCat.rentCat();
-			System.out.println(rentedCat.getName() + " has been rented.\n");
+			System.out.println(rentedCat.getName() + " has been rented.");
 			return true;
-		}else{
+		} else {
+			System.out.println("Invalid cat ID.");
 			return false;
 		}
 	}
@@ -89,12 +77,14 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean renameCat(int id, String name) {
-		int index = id-1;
-		if (index < 0 || index >= cats.size()) {
+		if (id < 0 || id >= cats.size()) {
+			System.out.println("Invalid cat ID.");
 			return false;
 		}
-		Cat renamedCat = cats.get(index);
-		if(cats.get(index) == null){
+
+		Cat renamedCat = getCat(id);
+		if (renamedCat == null) {
+			System.out.println("Invalid cat ID.");
 			return false;
 		}
 
@@ -113,17 +103,16 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public String listCats() {
-        StringBuilder listString = new StringBuilder();
-
-        for (Cat cat : cats) {
-            if (cat != null){
-				if(cat.getRented() != true) {
-					listString.append(cat.toString()).append("\n");
-				}
-            }
-        }
-        // Convert StringBuilder to String and trim to remove any trailing newline
-        return listString.toString();
+		String catList = "";
+		int currLoc = 1;
+		while (getCat(currLoc) != null) {
+			Cat currCat = getCat(currLoc);
+			if (!currCat.getRented()) {
+				catList = catList + currCat.toString() + "\n";
+			}
+			currLoc = currLoc + 1;
+		}
+		return catList;
 	}
 
 	/**

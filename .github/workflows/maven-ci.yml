@@ -45,8 +45,16 @@ jobs:
         name: Jacoco coverage results
         path: target/site/jacoco
 
+    - name: Cache build
+      uses: actions/cache@v3
+      with:
+        key: cached-build-${{github.sha}}
+        path: .
+
   # Uploads dependency graph to GitHub to receive Dependabot alerts 
   update_dependence_graph:
+
+    needs: [maven_test]  # Enforces that maven_test runs first
 
     runs-on: ubuntu-latest
 
@@ -54,6 +62,10 @@ jobs:
       contents: read
 
     steps:
+        # The uses: keyword invokes a GitHub action:
+    # https://github.com/marketplace/actions/checkout
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
     # https://github.com/marketplace/actions/maven-dependency-tree-dependency-submission
     - name: Update dependency graph
