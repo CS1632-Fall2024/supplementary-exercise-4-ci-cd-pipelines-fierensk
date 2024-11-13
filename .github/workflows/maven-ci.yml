@@ -45,6 +45,7 @@ jobs:
         name: Jacoco coverage results
         path: target/site/jacoco
 
+
   # Uploads dependency graph to GitHub to receive Dependabot alerts 
   update_dependence_graph:
 
